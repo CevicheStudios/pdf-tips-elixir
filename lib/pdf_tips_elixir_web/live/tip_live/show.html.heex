@@ -1,0 +1,77 @@
+<div class="space-y-6">
+  <.back_link to={~p"/tips"} label="Back to Tips" />
+
+  <!-- Tip Content -->
+  <div class="card-enterprise">
+    <div class="card-enterprise-body space-y-6">
+      <div class="flex justify-between items-start gap-6">
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center gap-3 flex-wrap">
+            <span class={@tip.posted && "badge-success" || "badge-warning"}>
+              {if @tip.posted, do: "Posted", else: "Draft"}
+            </span>
+            <h1 class="text-xl font-semibold text-base-content">{@tip.title}</h1>
+          </div>
+          <p :if={@tip.source_reference} class="text-sm text-base-content/50 mt-2">
+            Source: {@tip.source_reference}
+          </p>
+        </div>
+        <div class="flex gap-2 flex-shrink-0">
+          <button
+            :if={not @tip.posted}
+            phx-click="post_to_teams"
+            disabled={@posting}
+            class="btn-enterprise-success"
+          >
+            <%= if @posting do %>
+              <.spinner />
+              Posting...
+            <% else %>
+              <.carbon_icon name="send" class="w-4 h-4" />
+              Post to Teams
+            <% end %>
+          </button>
+          <button
+            phx-click="delete"
+            data-confirm="Are you sure you want to delete this tip?"
+            class="btn-enterprise-danger"
+          >
+            <.carbon_icon name="trash-can" class="w-4 h-4" />
+            Delete
+          </button>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-sm font-semibold text-base-content/70 uppercase tracking-wider mb-2">Content</h3>
+          <p class="text-base-content whitespace-pre-wrap break-words">{@tip.content}</p>
+        </div>
+
+        <div :if={@tip.example}>
+          <h3 class="text-sm font-semibold text-base-content/70 uppercase tracking-wider mb-2">Example</h3>
+          <div class="bg-base-200/50 border border-base-300 p-4">
+            <p class="text-base-content/80 whitespace-pre-wrap break-words font-mono text-sm">{@tip.example}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-base-300 text-sm text-base-content/50 space-y-1">
+        <p>Created: {format_datetime(@tip.inserted_at)}</p>
+        <p :if={@tip.posted}>Posted: {format_datetime(@tip.posted_at)}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Teams Preview -->
+  <div class="card-enterprise">
+    <div class="card-enterprise-header">
+      <h2 class="font-medium text-base-content">Teams Message Preview</h2>
+    </div>
+    <div class="card-enterprise-body">
+      <div class="bg-base-200 border border-base-300 p-4 overflow-x-auto">
+        <pre class="text-success text-sm font-mono">{@teams_preview}</pre>
+      </div>
+    </div>
+  </div>
+</div>

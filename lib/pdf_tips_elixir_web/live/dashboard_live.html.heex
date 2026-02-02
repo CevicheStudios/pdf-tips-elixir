@@ -1,0 +1,113 @@
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div class="flex items-center justify-between">
+    <.page_header
+      title="Dashboard"
+      description="Overview of your knowledge base and tip generation"
+    />
+    <button
+      phx-click="generate_tip"
+      disabled={@generating or not @anthropic_configured}
+      class="btn-enterprise-primary"
+    >
+      <%= if @generating do %>
+        <.spinner />
+        Generating...
+      <% else %>
+        <.carbon_icon name="lightning" class="w-4 h-4" />
+        Generate Tip
+      <% end %>
+    </button>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <.stat_card value={@documents_count} label="Documents" icon="document" icon_color="primary" />
+    <.stat_card
+      value={@chunks_count}
+      label="Chunks"
+      subtitle={"#{@embeddings_count} with embeddings"}
+      icon="data-base"
+      icon_color="info"
+    />
+    <.stat_card value={@draft_tips_count} label="Draft Tips" icon="edit" icon_color="warning" />
+    <.stat_card value={@posted_tips_count} label="Posted Tips" icon="checkmark-outline" icon_color="success" />
+  </div>
+
+  <!-- Configuration Status & Token Usage -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Configuration Status -->
+    <div class="card-enterprise">
+      <div class="card-enterprise-header">
+        <h2 class="text-base font-medium text-base-content">System Status</h2>
+      </div>
+      <div class="card-enterprise-body space-y-4">
+        <.config_status_row name="Anthropic (Claude)" configured={@anthropic_configured} description="AI tip generation" />
+        <.config_status_row name="Voyage AI" configured={@voyage_configured} description="Vector embeddings" />
+        <.config_status_row name="Microsoft Teams" configured={@teams_configured} description="Tip publishing" />
+      </div>
+    </div>
+
+    <!-- Token Usage -->
+    <%= if @voyage_configured do %>
+      <div class="card-enterprise">
+        <div class="card-enterprise-header">
+          <h2 class="text-base font-medium text-base-content">Voyage AI Usage</h2>
+        </div>
+        <div class="card-enterprise-body">
+          <div class="flex items-end justify-between mb-3">
+            <div>
+              <p class="text-2xl font-semibold text-base-content">{@token_stats.percentage}%</p>
+              <p class="text-sm text-base-content/60">of free tier used</p>
+            </div>
+            <p class="text-sm text-base-content/50">
+              {format_number(@token_stats.used)} / {format_number(@token_stats.limit)} tokens
+            </p>
+          </div>
+          <.progress_bar percentage={@token_stats.percentage} />
+          <p :if={@token_stats.percentage >= 80} class="mt-3 text-sm text-error">
+            Approaching token limit. Consider upgrading your plan.
+          </p>
+        </div>
+      </div>
+    <% else %>
+      <div class="card-enterprise">
+        <div class="card-enterprise-header">
+          <h2 class="text-base font-medium text-base-content">Vector Search</h2>
+        </div>
+        <div class="card-enterprise-body">
+          <div class="flex items-center gap-3 text-warning">
+            <.carbon_icon name="warning" class="w-5 h-5" />
+            <span class="text-sm">Configure Voyage AI to enable semantic search</span>
+          </div>
+          <.link navigate={~p"/settings"} class="btn-enterprise-secondary mt-4">
+            Go to Settings
+          </.link>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Recent Tips -->
+  <div class="card-enterprise">
+    <div class="card-enterprise-header flex items-center justify-between">
+      <h2 class="text-base font-medium text-base-content">Recent Tips</h2>
+      <.link navigate={~p"/tips"} class="text-sm text-primary hover:text-primary/80 transition-colors">
+        View all
+      </.link>
+    </div>
+    <div class="card-enterprise-body">
+      <%= if Enum.empty?(@recent_tips) do %>
+        <div class="text-center py-8">
+          <.carbon_icon name="idea" class="w-12 h-12 mx-auto text-base-content/20" />
+          <p class="mt-3 text-base-content/50">No tips generated yet</p>
+          <p class="text-sm text-base-content/40">Click "Generate Tip" to create your first one</p>
+        </div>
+      <% else %>
+        <div class="space-y-3">
+          <.recent_tip_item :for={tip <- @recent_tips} tip={tip} />
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

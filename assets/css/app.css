@@ -1,0 +1,436 @@
+/* See the Tailwind configuration guide for advanced usage
+   https://tailwindcss.com/docs/configuration */
+
+@import "tailwindcss" source(none);
+@source "../css";
+@source "../js";
+@source "../../lib/pdf_tips_elixir_web";
+
+/* A Tailwind plugin that makes "hero-#{ICON}" classes available.
+   The heroicons installation itself is managed by your mix.exs */
+@plugin "../vendor/heroicons";
+
+/* daisyUI Tailwind Plugin. You can update this file by fetching the latest version with:
+   curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui.js
+   Make sure to look at the daisyUI changelog: https://daisyui.com/docs/changelog/ */
+@plugin "../vendor/daisyui" {
+  themes: false;
+}
+
+/* ============================================
+   VIOLET CARBON DESIGN SYSTEM
+   Boxy, information-dense enterprise design
+   Inspired by IBM Carbon with Violet AI accent
+   ============================================ */
+
+/* Dark Theme - Default */
+@plugin "../vendor/daisyui-theme" {
+  name: "dark";
+  default: true;
+  prefersdark: true;
+  color-scheme: "dark";
+
+  /* Base colors - Carbon gray scale */
+  --color-base-100: oklch(18% 0.005 260);
+  --color-base-200: oklch(15% 0.005 260);
+  --color-base-300: oklch(22% 0.005 260);
+  --color-base-content: oklch(92% 0.005 260);
+
+  /* Primary - Violet AI */
+  --color-primary: oklch(65% 0.20 285);
+  --color-primary-content: oklch(98% 0.01 285);
+
+  /* Secondary - Cool gray */
+  --color-secondary: oklch(50% 0.02 260);
+  --color-secondary-content: oklch(95% 0.01 260);
+
+  /* Accent - Teal for actions */
+  --color-accent: oklch(70% 0.14 185);
+  --color-accent-content: oklch(15% 0.02 185);
+
+  /* Neutral */
+  --color-neutral: oklch(25% 0.01 260);
+  --color-neutral-content: oklch(88% 0.01 260);
+
+  /* Semantic colors - Carbon-inspired */
+  --color-info: oklch(70% 0.12 240);
+  --color-info-content: oklch(15% 0.01 240);
+  --color-success: oklch(70% 0.15 150);
+  --color-success-content: oklch(15% 0.02 150);
+  --color-warning: oklch(80% 0.14 85);
+  --color-warning-content: oklch(15% 0.02 85);
+  --color-error: oklch(65% 0.20 25);
+  --color-error-content: oklch(98% 0.01 25);
+
+  /* Border radius - BOXY: minimal/no radius */
+  --radius-selector: 0;
+  --radius-field: 0;
+  --radius-box: 0;
+  --size-selector: 0;
+  --size-field: 0;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+/* Light Theme */
+@plugin "../vendor/daisyui-theme" {
+  name: "light";
+  default: false;
+  prefersdark: false;
+  color-scheme: "light";
+
+  /* Base colors - Carbon light scale */
+  --color-base-100: oklch(99% 0.002 260);
+  --color-base-200: oklch(96% 0.004 260);
+  --color-base-300: oklch(92% 0.006 260);
+  --color-base-content: oklch(15% 0.01 260);
+
+  /* Primary - Violet AI */
+  --color-primary: oklch(55% 0.22 285);
+  --color-primary-content: oklch(98% 0.01 285);
+
+  /* Secondary - Cool gray */
+  --color-secondary: oklch(45% 0.02 260);
+  --color-secondary-content: oklch(98% 0.01 260);
+
+  /* Accent - Teal */
+  --color-accent: oklch(55% 0.14 185);
+  --color-accent-content: oklch(98% 0.02 185);
+
+  /* Neutral */
+  --color-neutral: oklch(30% 0.015 260);
+  --color-neutral-content: oklch(98% 0.005 260);
+
+  /* Semantic colors */
+  --color-info: oklch(55% 0.14 240);
+  --color-info-content: oklch(98% 0.01 240);
+  --color-success: oklch(50% 0.16 150);
+  --color-success-content: oklch(98% 0.02 150);
+  --color-warning: oklch(70% 0.15 85);
+  --color-warning-content: oklch(15% 0.02 85);
+  --color-error: oklch(55% 0.22 25);
+  --color-error-content: oklch(98% 0.01 25);
+
+  /* Border radius - BOXY */
+  --radius-selector: 0;
+  --radius-field: 0;
+  --radius-box: 0;
+  --size-selector: 0;
+  --size-field: 0;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+/* Add variants based on LiveView classes */
+@custom-variant phx-click-loading (.phx-click-loading&, .phx-click-loading &);
+@custom-variant phx-submit-loading (.phx-submit-loading&, .phx-submit-loading &);
+@custom-variant phx-change-loading (.phx-change-loading&, .phx-change-loading &);
+
+/* Use the data attribute for dark mode */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Make LiveView wrapper divs transparent for layout */
+[data-phx-session], [data-phx-teleported-src] { display: contents }
+
+/* ============================================
+   VIOLET CARBON - BOXY COMPONENT STYLES
+   Sharp edges, strong borders, information dense
+   ============================================ */
+
+/* Typography - Clean, technical */
+@layer base {
+  html {
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply text-sm leading-normal;
+  }
+
+  h1 {
+    @apply text-xl font-semibold tracking-tight;
+  }
+
+  h2 {
+    @apply text-base font-semibold tracking-tight;
+  }
+
+  h3 {
+    @apply text-sm font-semibold;
+  }
+
+  h4 {
+    @apply text-sm font-medium;
+  }
+}
+
+/* Sidebar navigation - Carbon style */
+@layer components {
+  .sidebar-nav-item {
+    @apply flex items-center gap-3 px-4 py-3 text-sm transition-colors duration-100;
+    @apply text-base-content/70 hover:text-base-content hover:bg-base-300/30;
+    @apply border-l-3 border-transparent;
+  }
+
+  .sidebar-nav-item.active {
+    @apply bg-base-300/40 text-primary border-l-3 border-primary;
+  }
+
+  .sidebar-nav-item svg {
+    @apply w-5 h-5 flex-shrink-0 opacity-80;
+  }
+
+  .sidebar-nav-item.active svg {
+    @apply opacity-100;
+  }
+
+  /* Card styles - BOXY with strong borders */
+  .card-enterprise {
+    @apply bg-base-100 border border-base-300;
+  }
+
+  .card-enterprise-header {
+    @apply px-4 py-3 border-b border-base-300 bg-base-200/30;
+  }
+
+  .card-enterprise-body {
+    @apply p-4;
+  }
+
+  /* Tile styles - Carbon tile pattern */
+  .tile {
+    @apply bg-base-100 border border-base-300 p-4;
+  }
+
+  .tile-clickable {
+    @apply bg-base-100 border border-base-300 p-4 cursor-pointer transition-colors hover:bg-base-200/50;
+  }
+
+  /* Button variants - BOXY, no border-radius */
+  .btn-enterprise-primary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors duration-100;
+    @apply bg-primary text-primary-content hover:bg-primary/80;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-1 focus:ring-offset-base-100;
+  }
+
+  .btn-enterprise-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors duration-100;
+    @apply bg-base-300 text-base-content hover:bg-base-300/70;
+    @apply focus:outline-none focus:ring-2 focus:ring-base-300/50 focus:ring-offset-1 focus:ring-offset-base-100;
+  }
+
+  .btn-enterprise-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors duration-100;
+    @apply bg-transparent text-base-content/70 hover:bg-base-300/40 hover:text-base-content;
+  }
+
+  .btn-enterprise-danger {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors duration-100;
+    @apply bg-error text-error-content hover:bg-error/80;
+    @apply focus:outline-none focus:ring-2 focus:ring-error/50 focus:ring-offset-1 focus:ring-offset-base-100;
+  }
+
+  .btn-enterprise-success {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors duration-100;
+    @apply bg-accent text-accent-content hover:bg-accent/80;
+    @apply focus:outline-none focus:ring-2 focus:ring-accent/50 focus:ring-offset-1 focus:ring-offset-base-100;
+  }
+
+  /* Ghost button - outlined variant */
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors duration-100;
+    @apply bg-transparent border border-base-300 text-base-content hover:bg-base-300/30;
+  }
+
+  /* Icon button */
+  .btn-icon {
+    @apply inline-flex items-center justify-center w-8 h-8 transition-colors duration-100;
+    @apply text-base-content/60 hover:text-base-content hover:bg-base-300/40;
+  }
+
+  /* Input styles - BOXY */
+  .input-enterprise {
+    @apply w-full px-3 py-2.5 text-sm bg-base-200/50 border-b-2 border-base-300;
+    @apply placeholder:text-base-content/40;
+    @apply focus:outline-none focus:border-primary focus:bg-base-200/70;
+    @apply transition-colors duration-100;
+  }
+
+  .input-enterprise:disabled {
+    @apply bg-base-200 cursor-not-allowed opacity-50;
+  }
+
+  /* Label styles */
+  .label-enterprise {
+    @apply block text-xs font-medium text-base-content/60 uppercase tracking-wider mb-2;
+  }
+
+  /* Stat cards - BOXY tiles */
+  .stat-card {
+    @apply bg-base-100 border border-base-300 p-4;
+  }
+
+  .stat-card-value {
+    @apply text-3xl font-light text-base-content tabular-nums;
+  }
+
+  .stat-card-label {
+    @apply text-xs text-base-content/60 uppercase tracking-wider mt-1;
+  }
+
+  .stat-card-subtitle {
+    @apply text-xs text-base-content/40 mt-0.5;
+  }
+
+  /* Status tags - BOXY badges */
+  .badge-success {
+    @apply inline-flex items-center px-2 py-0.5 text-xs font-medium bg-success/20 text-success border-l-2 border-success;
+  }
+
+  .badge-warning {
+    @apply inline-flex items-center px-2 py-0.5 text-xs font-medium bg-warning/20 text-warning border-l-2 border-warning;
+  }
+
+  .badge-error {
+    @apply inline-flex items-center px-2 py-0.5 text-xs font-medium bg-error/20 text-error border-l-2 border-error;
+  }
+
+  .badge-info {
+    @apply inline-flex items-center px-2 py-0.5 text-xs font-medium bg-info/20 text-info border-l-2 border-info;
+  }
+
+  .badge-neutral {
+    @apply inline-flex items-center px-2 py-0.5 text-xs font-medium bg-base-300 text-base-content/70;
+  }
+
+  /* Progress bar - Carbon style */
+  .progress-enterprise {
+    @apply w-full h-1 bg-base-300 overflow-hidden;
+  }
+
+  .progress-enterprise-fill {
+    @apply h-full bg-primary transition-all duration-300;
+  }
+
+  /* Table styles - Data table */
+  .table-enterprise {
+    @apply w-full text-sm;
+  }
+
+  .table-enterprise th {
+    @apply px-4 py-3 text-left text-xs font-medium text-base-content/60 uppercase tracking-wider bg-base-200/50 border-b border-base-300;
+  }
+
+  .table-enterprise td {
+    @apply px-4 py-3 border-b border-base-300/50;
+  }
+
+  .table-enterprise tbody tr {
+    @apply hover:bg-base-200/30 transition-colors;
+  }
+
+  /* Tabs - Carbon tab pattern */
+  .tabs-enterprise {
+    @apply flex border-b border-base-300;
+  }
+
+  .tab-enterprise {
+    @apply px-4 py-3 text-sm font-medium text-base-content/60 border-b-2 border-transparent -mb-px transition-colors;
+    @apply hover:text-base-content;
+  }
+
+  .tab-enterprise.active {
+    @apply text-primary border-primary bg-base-100;
+  }
+
+  /* Tag/chips - for topics */
+  .tag {
+    @apply inline-flex items-center px-3 py-1 text-xs font-medium cursor-pointer transition-all duration-100;
+    @apply bg-base-300/50 text-base-content/70 border border-base-300;
+    @apply hover:bg-base-300 hover:text-base-content hover:border-base-content/30;
+  }
+
+  .tag.selected {
+    @apply bg-primary/20 text-primary border-primary;
+  }
+
+  .tag:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  /* Legacy support - topic pills */
+  .topic-pill {
+    @apply inline-flex items-center px-3 py-1 text-xs font-medium cursor-pointer transition-all duration-100;
+    @apply bg-base-300/50 text-base-content/70 border border-base-300;
+    @apply hover:bg-base-300 hover:text-base-content hover:border-base-content/30;
+  }
+
+  .topic-pill.selected {
+    @apply bg-primary/20 text-primary border-primary;
+  }
+
+  /* Inline notifications - Carbon style */
+  .notification-info {
+    @apply flex items-start gap-3 p-4 text-sm border-l-3 bg-info/10 border-info text-base-content;
+  }
+
+  .notification-success {
+    @apply flex items-start gap-3 p-4 text-sm border-l-3 bg-success/10 border-success text-base-content;
+  }
+
+  .notification-warning {
+    @apply flex items-start gap-3 p-4 text-sm border-l-3 bg-warning/10 border-warning text-base-content;
+  }
+
+  .notification-error {
+    @apply flex items-start gap-3 p-4 text-sm border-l-3 bg-error/10 border-error text-base-content;
+  }
+
+  /* Divider */
+  .divider-carbon {
+    @apply border-t border-base-300 my-4;
+  }
+
+  /* Section header */
+  .section-header {
+    @apply flex items-center gap-3 pb-3 mb-4 border-b border-base-300;
+  }
+
+  .section-title {
+    @apply text-sm font-semibold text-base-content;
+  }
+
+  .section-subtitle {
+    @apply text-xs text-base-content/50;
+  }
+}
+
+/* Flash messages - Carbon inline notification style */
+@layer components {
+  .flash-info {
+    @apply flex items-start gap-3 px-4 py-3 text-sm bg-info/10 text-base-content border-l-3 border-info;
+  }
+
+  .flash-error {
+    @apply flex items-start gap-3 px-4 py-3 text-sm bg-error/10 text-base-content border-l-3 border-error;
+  }
+
+  .flash-success {
+    @apply flex items-start gap-3 px-4 py-3 text-sm bg-success/10 text-base-content border-l-3 border-success;
+  }
+}
+
+/* Loading states */
+@layer utilities {
+  .loading-pulse {
+    @apply animate-pulse bg-base-300/50 rounded;
+  }
+
+  .loading-spinner {
+    @apply animate-spin;
+  }
+}

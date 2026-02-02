@@ -1,0 +1,91 @@
+<div class="space-y-6">
+  <.page_header
+    title="Tips"
+    description="Generate and manage AI-powered tips from your knowledge base"
+  />
+
+  <!-- Generation Panel -->
+  <.card>
+    <:header>
+      <.card_header
+        icon="ai"
+        title="Generate New Tip"
+        description="Select a topic or generate randomly from your knowledge base"
+      >
+        <:actions>
+          <%= if @embeddings_configured do %>
+            <.badge variant={:success}>
+              <.carbon_icon name="checkmark-filled" class="w-3 h-3 mr-1" />
+              Semantic search enabled
+            </.badge>
+          <% else %>
+            <.badge variant={:warning}>Semantic search disabled</.badge>
+          <% end %>
+        </:actions>
+      </.card_header>
+    </:header>
+
+    <div class="space-y-5">
+      <.selected_topic_display :if={@selected_topic} topic={@selected_topic} />
+
+      <!-- Topic Groups Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <.topic_group
+          :for={group <- @topic_groups}
+          group={group}
+          selected_topic={@selected_topic}
+          disabled={@generating}
+        />
+      </div>
+
+      <!-- Generate Buttons -->
+      <div class="flex items-center gap-3 pt-4 border-t border-base-300/50">
+        <button
+          phx-click="generate_tip"
+          disabled={@generating || is_nil(@selected_topic)}
+          class="btn-enterprise-primary flex-1"
+        >
+          <%= if @generating && @selected_topic do %>
+            <.spinner />
+            Generating...
+          <% else %>
+            <.carbon_icon name="search" class="w-4 h-4" />
+            Generate from Topic
+          <% end %>
+        </button>
+        <button
+          phx-click="generate_random"
+          disabled={@generating}
+          class="btn-enterprise-secondary"
+        >
+          <%= if @generating && is_nil(@selected_topic) do %>
+            <.spinner />
+            Generating...
+          <% else %>
+            <.carbon_icon name="refresh" class="w-4 h-4" />
+            Random
+          <% end %>
+        </button>
+      </div>
+    </div>
+  </.card>
+
+  <!-- Tabs -->
+  <.tabs current_tab={@tab}>
+    <.tab tab="drafts" current={@tab} patch={~p"/tips?tab=drafts"}>Drafts</.tab>
+    <.tab tab="posted" current={@tab} patch={~p"/tips?tab=posted"}>Posted</.tab>
+  </.tabs>
+
+  <!-- Tips List -->
+  <%= if Enum.empty?(@tips) do %>
+    <.empty_state
+      icon="idea"
+      message={if @tab == "drafts", do: "No draft tips yet", else: "No tips have been posted yet"}
+      description={if @tab == "drafts", do: "Select a topic above and generate your first tip", else: "Post a draft tip to Teams to see it here"}
+    />
+  <% else %>
+    <div class="space-y-3">
+      <.tip_card :for={tip <- @tips} tip={tip} posting={@posting} />
+    </div>
+  <% end %>
+</div>

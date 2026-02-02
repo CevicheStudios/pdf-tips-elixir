@@ -1,0 +1,49 @@
+<Layouts.flash_group flash={@flash} />
+<div class="px-4 py-10 sm:px-6 sm:py-28 lg:px-8 xl:px-28 xl:py-32">
+  <div class="mx-auto max-w-xl lg:mx-0">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="p-2 bg-primary/10">
+        <.carbon_icon name="cube" class="w-8 h-8 text-primary" />
+      </div>
+    </div>
+    <div class="flex justify-between items-center">
+      <h1 class="flex items-center text-sm font-semibold leading-6 text-base-content">
+        PDF Tips
+        <span class="badge-info ml-3 text-xs">AI-Powered</span>
+      </h1>
+      <Layouts.theme_toggle />
+    </div>
+
+    <p class="text-[2rem] mt-4 font-semibold leading-10 tracking-tighter text-balance text-base-content">
+      AI-powered productivity tips for your team.
+    </p>
+    <p class="mt-4 leading-7 text-base-content/70">
+      Generate intelligent tips from your knowledge base and share them directly to Microsoft Teams. Built with Phoenix LiveView and powered by Claude AI.
+    </p>
+
+    <div class="flex">
+      <div class="w-full sm:w-auto">
+        <.nav_card_grid class="mt-10">
+          <.nav_card href="/" icon="dashboard" label="Dashboard" />
+          <.nav_card href="/documents" icon="document" label="Documents" />
+          <.nav_card href="/tips" icon="idea" label="Tips" />
+        </.nav_card_grid>
+
+        <.link_grid class="mt-10">
+          <div>
+            <.link_item href="/settings" icon="settings" label="Configure Settings" />
+          </div>
+          <div>
+            <.link_item href="https://hexdocs.pm/phoenix/overview.html" icon="chat" label="Phoenix Documentation" external />
+          </div>
+          <div>
+            <.link_item href="https://docs.anthropic.com/" icon="book" label="Claude AI Documentation" external />
+          </div>
+          <div>
+            <.link_item href="https://www.voyageai.com/" icon="cloud" label="Voyage AI Embeddings" external />
+          </div>
+        </.link_grid>
+      </div>
+    </div>
+  </div>
+</div>

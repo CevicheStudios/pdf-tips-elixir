@@ -1,0 +1,143 @@
+<div class="space-y-6">
+  <.page_header
+    title="Documents"
+    description="Upload PDFs or add URLs to build your knowledge base"
+  />
+
+  <!-- Processing Indicator -->
+  <.processing_indicator :if={@processing} message="Processing document... This may take a moment." />
+
+  <!-- Upload Forms -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- PDF Upload -->
+    <div class="card-enterprise">
+      <div class="card-enterprise-header">
+        <div class="flex items-center gap-3">
+          <div class="p-2 bg-error/10">
+            <.carbon_icon name="pdf" class="w-5 h-5 text-error" />
+          </div>
+          <div>
+            <h2 class="font-medium text-base-content">Upload PDF</h2>
+            <p class="text-sm text-base-content/50">Upload a PDF document to extract content</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-enterprise-body">
+        <form phx-submit="upload_pdf" phx-change="validate_pdf">
+          <div
+            class="border-2 border-dashed border-base-300 p-8 text-center hover:border-primary/50 hover:bg-primary/5 transition-all cursor-pointer"
+            phx-drop-target={@uploads.pdf.ref}
+          >
+            <.live_file_input upload={@uploads.pdf} class="sr-only" />
+            <label for={@uploads.pdf.ref} class="cursor-pointer">
+              <.carbon_icon name="cloud-upload" class="w-12 h-12 mx-auto text-base-content/30" />
+              <p class="mt-3 text-sm text-base-content/70">Click to upload or drag and drop</p>
+              <p class="text-xs text-base-content/50 mt-1">PDF up to 50MB</p>
+            </label>
+          </div>
+
+          <%= for entry <- @uploads.pdf.entries do %>
+            <div class="mt-4 flex items-center justify-between bg-base-200/50 p-3">
+              <div class="flex items-center gap-2">
+                <.carbon_icon name="pdf" class="w-5 h-5 text-error" />
+                <span class="text-sm text-base-content">{entry.client_name}</span>
+              </div>
+              <button type="button" phx-click="cancel-upload" phx-value-ref={entry.ref} class="p-1 text-base-content/40 hover:text-error">
+                <.carbon_icon name="close" class="w-4 h-4" />
+              </button>
+            </div>
+            <.progress_bar percentage={entry.progress} class="mt-2" />
+          <% end %>
+
+          <button
+            :if={length(@uploads.pdf.entries) > 0}
+            type="submit"
+            class="mt-4 btn-enterprise-primary w-full"
+            disabled={@processing}
+          >
+            <%= if @processing do %>
+              <.spinner />
+              Processing...
+            <% else %>
+              Upload & Process
+            <% end %>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- URL Input -->
+    <div class="card-enterprise">
+      <div class="card-enterprise-header">
+        <div class="flex items-center gap-3">
+          <div class="p-2 bg-info/10">
+            <.carbon_icon name="link" class="w-5 h-5 text-info" />
+          </div>
+          <div>
+            <h2 class="font-medium text-base-content">Add URL</h2>
+            <p class="text-sm text-base-content/50">Add a web page to extract content</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-enterprise-body">
+        <form phx-submit="add_url" phx-change="validate_url" class="space-y-4">
+          <div>
+            <label class="label-enterprise">URL</label>
+            <input
+              type="url"
+              name="url"
+              value={@url_form.params["url"]}
+              placeholder="https://example.com/article"
+              class="input-enterprise"
+              required
+            />
+          </div>
+          <div>
+            <label class="label-enterprise">Name (optional)</label>
+            <input
+              type="text"
+              name="name"
+              value={@url_form.params["name"]}
+              placeholder="Article title"
+              class="input-enterprise"
+            />
+            <p class="text-xs text-base-content/50 mt-1.5">Leave blank to auto-detect from URL</p>
+          </div>
+          <button
+            type="submit"
+            class="btn-enterprise-primary w-full"
+            disabled={@processing}
+          >
+            <%= if @processing do %>
+              <.spinner />
+              Processing...
+            <% else %>
+              Add & Process
+            <% end %>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Documents List -->
+  <div class="card-enterprise">
+    <div class="card-enterprise-header flex items-center justify-between">
+      <h2 class="font-medium text-base-content">All Documents</h2>
+      <span class="badge-neutral">{length(@documents)} documents</span>
+    </div>
+    <%= if Enum.empty?(@documents) do %>
+      <div class="card-enterprise-body">
+        <div class="text-center py-12">
+          <.carbon_icon name="folder" class="w-12 h-12 mx-auto text-base-content/20" />
+          <p class="mt-4 text-base-content/60">No documents yet</p>
+          <p class="text-sm text-base-content/40 mt-1">Upload a PDF or add a URL to get started</p>
+        </div>
+      </div>
+    <% else %>
+      <div class="divide-y divide-base-300/30">
+        <.document_item :for={doc <- @documents} doc={doc} />
+      </div>
+    <% end %>
+  </div>
+</div>
