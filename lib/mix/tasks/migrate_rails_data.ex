@@ -81,7 +81,7 @@ defmodule Mix.Tasks.MigrateRailsData do
           Logger.info("Found uploads directory: #{dir}")
           dir
       end
-    phoenix_uploads_dir = Path.join([:code.priv_dir(:pdf_tips_elixir), "static", "uploads"])
+    phoenix_uploads_dir = Path.join([:code.priv_dir(:ai_tips), "static", "uploads"])
     File.mkdir_p!(phoenix_uploads_dir)
 
     documents = fetch_all_rows(db, stmt)
@@ -109,7 +109,7 @@ defmodule Mix.Tasks.MigrateRailsData do
           end
 
         {:ok, doc} =
-          PdfTipsElixir.Repo.insert(%PdfTipsElixir.Knowledge.Document{
+          AiTips.Repo.insert(%AiTips.Knowledge.Document{
             name: name,
             file_path: new_file_path,
             content: content,
@@ -152,7 +152,7 @@ defmodule Mix.Tasks.MigrateRailsData do
 
         if new_doc_id do
           {:ok, chunk} =
-            PdfTipsElixir.Repo.insert(%PdfTipsElixir.Knowledge.Chunk{
+            AiTips.Repo.insert(%AiTips.Knowledge.Chunk{
               content: content,
               page_number: page_number,
               chunk_index: chunk_index,
@@ -196,7 +196,7 @@ defmodule Mix.Tasks.MigrateRailsData do
         new_chunk_id = if old_chunk_id, do: Map.get(chunk_id_map, old_chunk_id), else: nil
 
         {:ok, _tip} =
-          PdfTipsElixir.Repo.insert(%PdfTipsElixir.Content.Tip{
+          AiTips.Repo.insert(%AiTips.Content.Tip{
             title: title,
             content: content,
             example: example,
@@ -254,7 +254,7 @@ defmodule Mix.Tasks.MigrateRailsData do
           end
 
         if map_size(attrs) > 0 do
-          PdfTipsElixir.Settings.update_settings(attrs)
+          AiTips.Settings.update_settings(attrs)
           Logger.info("Migrated app settings")
         else
           Logger.info("No unencrypted settings to migrate")
@@ -276,7 +276,7 @@ defmodule Mix.Tasks.MigrateRailsData do
 
     case fetch_all_rows(db, stmt) do
       [[enabled, schedule, topic, last_run_at]] ->
-        PdfTipsElixir.Scheduling.update_settings(%{
+        AiTips.Scheduling.update_settings(%{
           enabled: enabled == 1,
           schedule: schedule || "daily_9am",
           topic: topic,
@@ -307,7 +307,7 @@ defmodule Mix.Tasks.MigrateRailsData do
         [status, message, created_at] = row
 
         {:ok, _log} =
-          PdfTipsElixir.Repo.insert(%PdfTipsElixir.Scheduling.ScheduleLog{
+          AiTips.Repo.insert(%AiTips.Scheduling.ScheduleLog{
             status: status,
             message: message,
             inserted_at: parse_datetime(created_at),

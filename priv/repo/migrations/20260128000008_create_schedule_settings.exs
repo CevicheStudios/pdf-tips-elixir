@@ -1,4 +1,4 @@
-defmodule PdfTipsElixir.Repo.Migrations.CreateScheduleSettings do
+defmodule AiTips.Repo.Migrations.CreateScheduleSettings do
   use Ecto.Migration
 
   def change do

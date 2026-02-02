@@ -1,11 +1,11 @@
 services:
   db:
     image: pgvector/pgvector:pg16
-    container_name: pdf_tips_postgres
+    container_name: ai_tips_postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: pdf_tips_elixir_dev
+      POSTGRES_DB: ai_tips_dev
     ports:
       - "5432:5432"
     volumes:

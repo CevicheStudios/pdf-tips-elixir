@@ -1,4 +1,4 @@
-defmodule PdfTipsElixir.Repo.Migrations.AddPowerAutomateUrlToAppSettings do
+defmodule AiTips.Repo.Migrations.AddPowerAutomateUrlToAppSettings do
   use Ecto.Migration
 
   def change do

@@ -23,7 +23,7 @@ erl_crash.dump
 /tmp/
 
 # Ignore package tarball (built via "mix hex.build").
-pdf_tips_elixir-*.tar
+ai_tips-*.tar
 
 # Ignore assets that are produced by build tools.
 /priv/static/assets/

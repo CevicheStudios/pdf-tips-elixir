@@ -1,4 +1,4 @@
-defmodule PdfTipsElixir.Repo.Migrations.CreateChunkVectors do
+defmodule AiTips.Repo.Migrations.CreateChunkVectors do
   use Ecto.Migration
 
   def change do

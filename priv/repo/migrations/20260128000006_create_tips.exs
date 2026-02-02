@@ -1,4 +1,4 @@
-defmodule PdfTipsElixir.Repo.Migrations.CreateTips do
+defmodule AiTips.Repo.Migrations.CreateTips do
   use Ecto.Migration
 
   def change do

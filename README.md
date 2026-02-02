@@ -1,4 +1,4 @@
-# PdfTipsElixir
+# AiTips
 
 To start your Phoenix server:
 

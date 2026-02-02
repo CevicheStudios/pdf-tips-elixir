@@ -1,4 +1,4 @@
-defmodule PdfTipsElixir.Repo.Migrations.AddHashtagsToTips do
+defmodule AiTips.Repo.Migrations.AddHashtagsToTips do
   use Ecto.Migration
 
   def change do

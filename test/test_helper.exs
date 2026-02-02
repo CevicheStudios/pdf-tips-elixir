@@ -1,2 +1,2 @@
 ExUnit.start()
-Ecto.Adapters.SQL.Sandbox.mode(PdfTipsElixir.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(AiTips.Repo, :manual)

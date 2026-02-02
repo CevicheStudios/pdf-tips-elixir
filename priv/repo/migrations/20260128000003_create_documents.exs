@@ -1,4 +1,4 @@
-defmodule PdfTipsElixir.Repo.Migrations.CreateDocuments do
+defmodule AiTips.Repo.Migrations.CreateDocuments do
   use Ecto.Migration
 
   def change do

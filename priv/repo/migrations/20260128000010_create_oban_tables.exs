@@ -1,4 +1,4 @@
-defmodule PdfTipsElixir.Repo.Migrations.CreateObanTables do
+defmodule AiTips.Repo.Migrations.CreateObanTables do
   use Ecto.Migration
 
   def up do

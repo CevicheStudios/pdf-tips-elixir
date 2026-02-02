@@ -1,4 +1,4 @@
-defmodule PdfTipsElixir.Repo.Migrations.EnablePgvector do
+defmodule AiTips.Repo.Migrations.EnablePgvector do
   use Ecto.Migration
 
   def up do

@@ -1,9 +1,9 @@
-defmodule PdfTipsElixir.MixProject do
+defmodule AiTips.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :pdf_tips_elixir,
+      app: :ai_tips,
       version: "0.1.0",
       elixir: "~> 1.15",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -20,7 +20,7 @@ defmodule PdfTipsElixir.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {PdfTipsElixir.Application, []},
+      mod: {AiTips.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -108,10 +108,10 @@ defmodule PdfTipsElixir.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["compile", "tailwind pdf_tips_elixir", "esbuild pdf_tips_elixir"],
+      "assets.build": ["compile", "tailwind ai_tips", "esbuild ai_tips"],
       "assets.deploy": [
-        "tailwind pdf_tips_elixir --minify",
-        "esbuild pdf_tips_elixir --minify",
+        "tailwind ai_tips --minify",
+        "esbuild ai_tips --minify",
         "phx.digest"
       ],
       precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"]

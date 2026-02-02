@@ -1,15 +1,15 @@
 import Config
 
 # Configure your database
-config :pdf_tips_elixir, PdfTipsElixir.Repo,
+config :ai_tips, AiTips.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
-  database: "pdf_tips_elixir_dev",
+  database: "ai_tips_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10,
-  types: PdfTipsElixir.PostgresTypes
+  types: AiTips.PostgresTypes
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -17,7 +17,7 @@ config :pdf_tips_elixir, PdfTipsElixir.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we can use it
 # to bundle .js and .css sources.
-config :pdf_tips_elixir, PdfTipsElixirWeb.Endpoint,
+config :ai_tips, AiTipsWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}],
@@ -26,8 +26,8 @@ config :pdf_tips_elixir, PdfTipsElixirWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "NtU2xeQzYuVxOsC26SHLGwoQOsMkc3PuiRskuG7OkrB2uXSrAgyw2XU6nxr2dwuz",
   watchers: [
-    esbuild: {Esbuild, :install_and_run, [:pdf_tips_elixir, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:pdf_tips_elixir, ~w(--watch)]}
+    esbuild: {Esbuild, :install_and_run, [:ai_tips, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:ai_tips, ~w(--watch)]}
   ]
 
 # ## SSL Support
@@ -54,7 +54,7 @@ config :pdf_tips_elixir, PdfTipsElixirWeb.Endpoint,
 # different ports.
 
 # Reload browser tabs when matching files change.
-config :pdf_tips_elixir, PdfTipsElixirWeb.Endpoint,
+config :ai_tips, AiTipsWeb.Endpoint,
   live_reload: [
     web_console_logger: true,
     patterns: [
@@ -63,13 +63,13 @@ config :pdf_tips_elixir, PdfTipsElixirWeb.Endpoint,
       # Gettext translations
       ~r"priv/gettext/.*\.po$"E,
       # Router, Controllers, LiveViews and LiveComponents
-      ~r"lib/pdf_tips_elixir_web/router\.ex$"E,
-      ~r"lib/pdf_tips_elixir_web/(controllers|live|components)/.*\.(ex|heex)$"E
+      ~r"lib/ai_tips_web/router\.ex$"E,
+      ~r"lib/ai_tips_web/(controllers|live|components)/.*\.(ex|heex)$"E
     ]
   ]
 
 # Enable dev routes for dashboard and mailbox
-config :pdf_tips_elixir, dev_routes: true
+config :ai_tips, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :default_formatter, format: "[$level] $message\n"
@@ -100,7 +100,7 @@ config :ueberauth, Ueberauth.Strategy.AzureAD.OAuth,
 
 # Cloak key for development (32 bytes, base64 encoded)
 # Generate with: :crypto.strong_rand_bytes(32) |> Base.encode64()
-config :pdf_tips_elixir, PdfTipsElixir.Vault,
+config :ai_tips, AiTips.Vault,
   ciphers: [
     default: {
       Cloak.Ciphers.AES.GCM,
